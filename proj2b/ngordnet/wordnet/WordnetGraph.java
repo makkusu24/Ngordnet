@@ -35,15 +35,11 @@ public class WordnetGraph {
             String token = hyponymsTokenizer.nextToken();
             if (!token.isEmpty()) {
                 String[] subToken = token.split(",");
-                if (hyponymsGraph.hasNode(Integer.parseInt(subToken[0]))) {
-                    for (int i = 1; i < subToken.length; i++) {
-                        hyponymsGraph.neighbors(Integer.parseInt(subToken[0])).add(Integer.parseInt(subToken[i]));
-                    }
-                } else {
+                if (!hyponymsGraph.hasNode(Integer.parseInt(subToken[0]))) {
                     hyponymsGraph.createNode(Integer.parseInt(subToken[0]));
-                    for (int i = 1; i < subToken.length; i++) {
-                        hyponymsGraph.neighbors(Integer.parseInt(subToken[0])).add(Integer.parseInt(subToken[i]));
-                    }
+                }
+                for (int i = 1; i < subToken.length; i++) {
+                    hyponymsGraph.neighbors(Integer.parseInt(subToken[0])).add(Integer.parseInt(subToken[i]));
                 }
             }
         }
