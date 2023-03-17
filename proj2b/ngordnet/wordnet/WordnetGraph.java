@@ -51,22 +51,13 @@ public class WordnetGraph {
             }
         }
         for (int i : idKeys.keySet()) { // create reversed map (word, ID)
-            if (idKeys.get(i).contains(" ")) {
-                String[] split = idKeys.get(i).split(" ");
-                for (String word : split) {
-                    if (!wordKeys.containsKey(word)) {
-                        wordKeys.put(word, new ArrayList<>());
-                        wordKeys.get(word).add(i);
-                    } else {
-                        wordKeys.get(word).add(i);
-                    }
-                }
-            } else {
-                if (!wordKeys.containsKey(idKeys.get(i))) {
-                    wordKeys.put(idKeys.get(i), new ArrayList<>());
-                    wordKeys.get(idKeys.get(i)).add(i);
+            String[] split = idKeys.get(i).split(" ");
+            for (String word : split) {
+                if (!wordKeys.containsKey(word)) {
+                    wordKeys.put(word, new ArrayList<>());
+                    wordKeys.get(word).add(i);
                 } else {
-                    wordKeys.get(idKeys.get(i)).add(i);
+                    wordKeys.get(word).add(i);
                 }
             }
         }
