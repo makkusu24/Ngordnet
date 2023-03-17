@@ -18,6 +18,17 @@ public class DirectedGraph extends HashMap<Integer, List<Integer>> {
         }
     }
 
+    public static void main(String[] args) {
+        DirectedGraph a = new DirectedGraph(5);
+        a.addEdge(0, 1);
+        a.addEdge(1, 2);
+        a.addEdge(2, 3);
+        a.addEdge(3, 4);
+        System.out.println(a.neighbors(0));
+        System.out.println(a.hasNode(1));
+        System.out.println(a.hasEdge(3, 4));
+    }
+
     public void createNode(int v) {
         this.put(v, new ArrayList<>());
     }
