@@ -11,7 +11,7 @@ public class WordnetGraph {
 
     private DirectedGraph hyponymsGraph;
     private HashMap<Integer, String> idKeys;
-    private HashMap<String, List<Integer>> wordKeys;
+    private HashMap<String, ArrayList<Integer>> wordKeys;
 
     public WordnetGraph(String synsetFile, String hyponymFile) {
         String contentHyponyms;
