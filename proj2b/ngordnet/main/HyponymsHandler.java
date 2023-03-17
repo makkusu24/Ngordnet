@@ -7,6 +7,7 @@ public class HyponymsHandler extends NgordnetQueryHandler {
 
     @Override
     public String handle(NgordnetQuery q) {
-        return "Hello!";
+        String placeholder = "Hello!";
+        return placeholder;
     }
 }
