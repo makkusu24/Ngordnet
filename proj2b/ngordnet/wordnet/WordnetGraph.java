@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class WordnetGraph {
-    //TODO: graph traversal --> find hyponyms of synset ID (remove duplicates [add to set], alphabetize [sort set])
+
     private DirectedGraph hyponymsGraph;
     private HashMap<Integer, String> idKeys;
     private HashMap <String, Integer> wordKeys;
@@ -49,14 +49,14 @@ public class WordnetGraph {
                 }
             }
         }
-        while (synsetsTokenizer.hasMoreTokens()) { // parse synset file
+        while (synsetsTokenizer.hasMoreTokens()) { // parse synset file into map (ID, word)
             String token = synsetsTokenizer.nextToken();
             if (!token.isEmpty()) {
                 String[] subToken = token.split(",");
                 idKeys.put(Integer.parseInt(subToken[0]), (subToken[1]));
             }
         }
-        for (int i : idKeys.keySet()) {
+        for (int i : idKeys.keySet()) { // create reversed map (word, ID)
             if (idKeys.get(i).contains(" ")) {
                 String[] split = idKeys.get(i).split(" ");
                 for (String word : split) {
@@ -69,12 +69,14 @@ public class WordnetGraph {
     }
 
     public String IDConvert(int synsetID) {
-        return null;
+        return idKeys.getOrDefault(synsetID, null);
     }
 
     public Integer WordConvert(String word) {
         // take into account that _ denotes multi-word collocations
-        return 0;
+        return wordKeys.getOrDefault(word, null);
     }
+
+    //TODO: graph traversal --> find hyponyms of synset ID (remove duplicates [add to TreeSet], alphabetize [default comparator])
 
 }

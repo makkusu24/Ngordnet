@@ -7,19 +7,18 @@ import java.util.List;
 
 public class HyponymsHandler extends NgordnetQueryHandler {
 
-    //WordnetGraph graph;
+    WordnetGraph graph;
 
-    /**
     public HyponymsHandler(WordnetGraph wng) {
         this.graph = wng;
     }
-     */
 
     @Override
     public String handle(NgordnetQuery q) {
-        List<String> words =q.words();
+        List<String> words = q.words();
         int startYear = q.startYear();
         int endYear = q.endYear();
+        int k = q.k();
 
 
         String placeholder = "Hello!";
