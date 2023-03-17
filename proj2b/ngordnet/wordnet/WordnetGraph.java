@@ -5,9 +5,7 @@ import ngordnet.ngrams.TimeSeries;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class WordnetGraph {
 
@@ -68,15 +66,34 @@ public class WordnetGraph {
         }
     }
 
-    public String IDConvert(int synsetID) {
+    public String idConvert(int synsetID) {
         return idKeys.getOrDefault(synsetID, null);
     }
 
-    public Integer WordConvert(String word) {
+    public Integer wordConvert(String word) {
         // take into account that _ denotes multi-word collocations
         return wordKeys.getOrDefault(word, null);
     }
 
-    //TODO: graph traversal --> find hyponyms of synset ID (remove duplicates [add to TreeSet], alphabetize [default comparator])
+    public TreeSet<Integer> findHyponyms(int synsetID) {
+        TreeSet<Integer> hyponyms = new TreeSet<>();
+        Queue<Integer> bfsQueue = new LinkedList<>();
+        HashSet<Integer> visited = new HashSet<>();
+        bfsQueue.offer(synsetID);
+        while (!bfsQueue.isEmpty()) {
+            int current = bfsQueue.poll();
+            visited.add(current);
+            if (current == synsetID) {
+                hyponyms.add(current);
+            }
+            for (int nextNode : hyponymsGraph.getOrDefault(current, Collections.emptyList())) {
+                if (!visited.contains(nextNode)) {
+                    bfsQueue.offer(nextNode);
+                }
+            }
+        }
+
+        return hyponyms;
+    }
 
 }
