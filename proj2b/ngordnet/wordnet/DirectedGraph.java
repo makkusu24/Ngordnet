@@ -3,7 +3,6 @@ package ngordnet.wordnet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Queue;
 
 public class DirectedGraph extends HashMap<Integer, List<Integer>> {
 

@@ -11,7 +11,7 @@ public class WordnetGraph {
 
     private DirectedGraph hyponymsGraph;
     private HashMap<Integer, String> idKeys;
-    private HashMap <String, Integer> wordKeys;
+    private HashMap<String, Integer> wordKeys;
 
     public WordnetGraph(String synsetFile, String hyponymFile) {
         String contentHyponyms;
@@ -28,7 +28,7 @@ public class WordnetGraph {
         }
         this.idKeys = new HashMap<>();
         this.wordKeys = new HashMap<>();
-        this.hyponymsGraph =new DirectedGraph();
+        this.hyponymsGraph = new DirectedGraph();
         StringTokenizer hyponymsTokenizer = new StringTokenizer(contentHyponyms, "\n");
         StringTokenizer synsetsTokenizer = new StringTokenizer(contentSynsets, "\n");
         while (hyponymsTokenizer.hasMoreTokens()) { // parse hyponyms file
@@ -98,7 +98,7 @@ public class WordnetGraph {
 
     public String findStrHyponyms(int synsetID) {
         TreeSet<Integer> intSet = findIntHyponyms(synsetID);
-        TreeSet<String> returnSet = new TreeSet<>();
+        TreeSet<String> returnSet = new TreeSet<>(new MyComparator());
         for (int id : intSet) {
             if (idConvert(id).contains(" ")) {
                 String[] split = idConvert(id).split(" ");
