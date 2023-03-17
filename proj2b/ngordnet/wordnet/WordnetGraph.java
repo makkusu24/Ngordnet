@@ -11,7 +11,7 @@ public class WordnetGraph {
 
     private DirectedGraph hyponymsGraph;
     private HashMap<Integer, String> idKeys;
-    private HashMap<String, Integer> wordKeys;
+    private HashMap<String, List<Integer>> wordKeys;
 
     public WordnetGraph(String synsetFile, String hyponymFile) {
         String contentHyponyms;
@@ -58,10 +58,20 @@ public class WordnetGraph {
             if (idKeys.get(i).contains(" ")) {
                 String[] split = idKeys.get(i).split(" ");
                 for (String word : split) {
-                    wordKeys.put(word, i);
+                    if (!wordKeys.containsKey(word)) {
+                        wordKeys.put(word, new ArrayList<>());
+                        wordKeys.get(word).add(i);
+                    } else {
+                        wordKeys.get(word).add(i);
+                    }
                 }
             } else {
-                wordKeys.put(idKeys.get(i), i);
+                if (!wordKeys.containsKey(idKeys.get(i))) {
+                    wordKeys.put(idKeys.get(i), new ArrayList<>());
+                    wordKeys.get(idKeys.get(i)).add(i);
+                } else {
+                    wordKeys.get(idKeys.get(i)).add(i);
+                }
             }
         }
     }
@@ -70,33 +80,33 @@ public class WordnetGraph {
         return idKeys.getOrDefault(synsetID, null);
     }
 
-    public Integer wordConvert(String word) {
-        // take into account that _ denotes multi-word collocations
+    public List<Integer> wordConvert(String word) {
         return wordKeys.getOrDefault(word, null);
     }
 
-    public TreeSet<Integer> findIntHyponyms(int synsetID) {
+    public TreeSet<Integer> findIntHyponyms(List<Integer> synsetID) {
         TreeSet<Integer> hyponyms = new TreeSet<>();
-        Queue<Integer> bfsQueue = new LinkedList<>();
-        HashSet<Integer> visited = new HashSet<>();
-        bfsQueue.offer(synsetID);
-        while (!bfsQueue.isEmpty()) {
-            int current = bfsQueue.poll();
-            visited.add(current);
-            if (current == synsetID) {
-                hyponyms.add(current);
-            }
-            for (int nextNode : hyponymsGraph.getOrDefault(current, Collections.emptyList())) {
-                if (!visited.contains(nextNode)) {
-                    bfsQueue.offer(nextNode);
+        for (int i : synsetID) {
+            HashSet<Integer> visited = new HashSet<>();
+            Queue<Integer> bfsQueue = new LinkedList<>();
+            bfsQueue.offer(i);
+            while (!bfsQueue.isEmpty()) {
+                int current = bfsQueue.poll();
+                visited.add(current);
+                if (current == i) {
+                    hyponyms.add(current);
+                }
+                for (int nextNode : hyponymsGraph.getOrDefault(current, Collections.emptyList())) {
+                    if (!visited.contains(nextNode)) {
+                        bfsQueue.offer(nextNode);
+                    }
                 }
             }
         }
-
         return hyponyms;
     }
 
-    public String findStrHyponyms(int synsetID) {
+    public String findStrHyponyms(List<Integer> synsetID) {
         TreeSet<Integer> intSet = findIntHyponyms(synsetID);
         TreeSet<String> returnSet = new TreeSet<>(new MyComparator());
         for (int id : intSet) {

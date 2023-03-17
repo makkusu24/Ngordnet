@@ -19,7 +19,7 @@ public class HyponymsHandler extends NgordnetQueryHandler {
         int startYear = q.startYear();
         int endYear = q.endYear();
         int k = q.k();
-        int wordsID = graph.wordConvert(words.get(0));
+        List<Integer> wordsID = graph.wordConvert(words.get(0)); // wordsID null if no word exists
         String result = graph.findStrHyponyms(wordsID);
         return result;
     }
