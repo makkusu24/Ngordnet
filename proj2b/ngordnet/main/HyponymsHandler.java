@@ -2,6 +2,7 @@ package ngordnet.main;
 
 import ngordnet.browser.NgordnetQuery;
 import ngordnet.browser.NgordnetQueryHandler;
+import ngordnet.wordnet.WordnetGraph;
 
 public class HyponymsHandler extends NgordnetQueryHandler {
 

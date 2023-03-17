@@ -1,4 +1,6 @@
 package ngordnet.wordnet;
 
-public class DirectedGraph {
+import java.util.Queue;
+
+public class DirectedGraph  {
 }

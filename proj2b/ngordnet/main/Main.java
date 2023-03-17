@@ -2,6 +2,7 @@ package ngordnet.main;
 
 import ngordnet.browser.NgordnetServer;
 import ngordnet.ngrams.NGramMap;
+import ngordnet.wordnet.WordnetGraph;
 
 public class Main {
     public static void main(String[] args) {
