@@ -75,7 +75,7 @@ public class WordnetGraph {
         return wordKeys.getOrDefault(word, null);
     }
 
-    public TreeSet<Integer> findHyponyms(int synsetID) {
+    public TreeSet<Integer> findIntHyponyms(int synsetID) {
         TreeSet<Integer> hyponyms = new TreeSet<>();
         Queue<Integer> bfsQueue = new LinkedList<>();
         HashSet<Integer> visited = new HashSet<>();
@@ -94,6 +94,22 @@ public class WordnetGraph {
         }
 
         return hyponyms;
+    }
+
+    public String findStrHyponyms(int synsetID) {
+        TreeSet<Integer> intSet = findIntHyponyms(synsetID);
+        TreeSet<String> returnSet = new TreeSet<>();
+        for (int id : intSet) {
+            if (idConvert(id).contains(" ")) {
+                String[] split = idConvert(id).split(" ");
+                for (String word : split) {
+                    returnSet.add(word);
+                }
+            } else {
+                returnSet.add(idConvert(id));
+            }
+        }
+        return returnSet.toString();
     }
 
 }
