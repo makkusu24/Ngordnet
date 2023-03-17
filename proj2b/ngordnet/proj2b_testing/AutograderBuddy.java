@@ -15,7 +15,6 @@ public class AutograderBuddy {
             String wordFile, String countFile,
             String synsetFile, String hyponymFile) {
 
-        NgordnetServer hns = new NgordnetServer();
         WordnetGraph wng = new WordnetGraph(synsetFile, hyponymFile);
 
         return new HyponymsHandler(wng);
