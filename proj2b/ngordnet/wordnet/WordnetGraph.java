@@ -105,4 +105,14 @@ public class WordnetGraph {
         return returnSet.toString();
     }
 
+    public String findMultiStrHyponyms(List<String> words) {
+        List<Integer> result = new ArrayList<>();
+        Set<Integer> baseCompare = new TreeSet<>(findIntHyponyms(wordConvert(words.get(0))));
+        for (int i = 1; i < words.size(); i++) {
+            baseCompare.retainAll(findIntHyponyms(wordConvert(words.get(i))));
+        }
+        result.addAll(baseCompare);
+        return findStrHyponyms(result);
+    }
+
 }
