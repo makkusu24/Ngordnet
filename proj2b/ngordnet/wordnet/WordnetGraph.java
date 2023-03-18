@@ -11,7 +11,7 @@ public class WordnetGraph {
 
     private DirectedGraph hyponymsGraph;
     private HashMap<Integer, String> idKeys;
-    private HashMap<String, ArrayList<Integer>> wordKeys;
+    private HashMap<String, List<Integer>> wordKeys;
 
     public WordnetGraph(String synsetFile, String hyponymFile) {
         String contentHyponyms;
@@ -51,14 +51,13 @@ public class WordnetGraph {
             }
         }
         for (int i : idKeys.keySet()) { // create reversed map (word, ID)
+            //TODO: idKeys not fully competing List<Integer> value --> problem here or in idKeys reading file
             String[] split = idKeys.get(i).split(" ");
             for (String word : split) {
                 if (!wordKeys.containsKey(word)) {
                     wordKeys.put(word, new ArrayList<>());
-                    wordKeys.get(word).add(i);
-                } else {
-                    wordKeys.get(word).add(i);
                 }
+                wordKeys.get(word).add(i);
             }
         }
     }
@@ -68,7 +67,7 @@ public class WordnetGraph {
     }
 
     public List<Integer> wordConvert(String word) {
-        return wordKeys.getOrDefault(word, null);
+        return wordKeys.getOrDefault(word, Collections.emptyList());
     }
 
     public TreeSet<Integer> findIntHyponyms(List<Integer> synsetID) {
