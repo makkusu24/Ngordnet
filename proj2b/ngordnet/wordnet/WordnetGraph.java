@@ -51,7 +51,7 @@ public class WordnetGraph {
             }
         }
         for (int i : idKeys.keySet()) { // create reversed map (word, ID)
-            //TODO: idKeys not fully competing List<Integer> value --> problem here or in idKeys reading file
+            //TODO: idKeys not fully competing List<Integer> value
             String[] split = idKeys.get(i).split(" ");
             for (String word : split) {
                 if (!wordKeys.containsKey(word)) {
@@ -72,20 +72,18 @@ public class WordnetGraph {
 
     public TreeSet<Integer> findIntHyponyms(List<Integer> synsetID) {
         TreeSet<Integer> hyponyms = new TreeSet<>();
+        HashSet<Integer> visited = new HashSet<>();
+        Queue<Integer> bfsQueue = new LinkedList<>();
         for (int i : synsetID) {
-            HashSet<Integer> visited = new HashSet<>();
-            Queue<Integer> bfsQueue = new LinkedList<>();
             bfsQueue.offer(i);
-            while (!bfsQueue.isEmpty()) {
-                int current = bfsQueue.poll();
-                visited.add(current);
-                if (current == i) {
-                    hyponyms.add(current);
-                }
-                for (int nextNode : hyponymsGraph.getOrDefault(current, Collections.emptyList())) {
-                    if (!visited.contains(nextNode)) {
-                        bfsQueue.offer(nextNode);
-                    }
+        }
+        while (!bfsQueue.isEmpty()) {
+            int current = bfsQueue.poll();
+            visited.add(current);
+            hyponyms.add(current);
+            for (int nextNode : hyponymsGraph.getOrDefault(current, Collections.emptyList())) {
+                if (!visited.contains(nextNode)) {
+                    bfsQueue.offer(nextNode);
                 }
             }
         }
