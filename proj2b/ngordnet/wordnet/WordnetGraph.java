@@ -51,7 +51,6 @@ public class WordnetGraph {
             }
         }
         for (int i : idKeys.keySet()) { // create reversed map (word, ID)
-            //TODO: idKeys not fully competing List<Integer> value
             String[] split = idKeys.get(i).split(" ");
             for (String word : split) {
                 if (!wordKeys.containsKey(word)) {

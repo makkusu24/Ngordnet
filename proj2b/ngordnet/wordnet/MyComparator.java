@@ -1,7 +1,6 @@
 package ngordnet.wordnet;
 
 import java.util.Comparator;
-import java.util.TreeSet;
 
 public class MyComparator implements Comparator<String> {
     public int compare(String a, String b) {
