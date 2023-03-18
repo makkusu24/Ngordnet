@@ -91,7 +91,7 @@ public class WordnetGraph {
 
     public String findStrHyponyms(List<Integer> synsetID) {
         TreeSet<Integer> intSet = findIntHyponyms(synsetID);
-        TreeSet<String> returnSet = new TreeSet<>(new MyComparator());
+        TreeSet<String> returnSet = new TreeSet<>();
         for (int id : intSet) {
             if (idConvert(id).contains(" ")) {
                 String[] split = idConvert(id).split(" ");
