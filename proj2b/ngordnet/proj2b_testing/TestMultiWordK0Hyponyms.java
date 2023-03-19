@@ -31,7 +31,18 @@ public class TestMultiWordK0Hyponyms {
         assertThat(actual).isEqualTo(expected);
     }
 
-    // TODO: Add more unit tests (including edge case tests) here.
+    @Test
+    public void largeMultiWordTest() {
+        NgordnetQueryHandler studentHandler = AutograderBuddy.getHyponymHandler(
+                WORDS_FILE, TOTAL_COUNTS_FILE, LARGE_SYNSET_FILE, LARGE_HYPONYM_FILE);
+        List<String> words = List.of("event", "link");
+
+        NgordnetQuery nq = new NgordnetQuery(words, 0, 0, 0);
+        String actual = studentHandler.handle(nq);
+        String expected = "[articulation, bridge, concatenation, connection, connexion, contact"
+                + ", inter-group_communication, interconnection, junction, juncture, liaison, link, osculation, tie]";
+        assertThat(actual).isEqualTo(expected);
+    }
 
     // TODO: Create similar unit test files for the k != 0 cases.
 }

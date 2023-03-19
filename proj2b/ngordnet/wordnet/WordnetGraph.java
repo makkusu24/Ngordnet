@@ -107,13 +107,11 @@ public class WordnetGraph {
 
     public String findMultiStrHyponyms(List<String> words) {
         TreeSet<String> result = new TreeSet<>();
-        List<Integer> commonNodes = new ArrayList<>();
         Set<Integer> baseCompare = new TreeSet<>(findIntHyponyms(wordConvert(words.get(0))));
         for (int i = 1; i < words.size(); i++) {
             baseCompare.retainAll(findIntHyponyms(wordConvert(words.get(i))));
         }
-        commonNodes.addAll(baseCompare);
-        for (int node : commonNodes) {
+        for (int node : baseCompare) {
             if (idConvert(node).contains(" ")) {
                 String[] split = idConvert(node).split(" ");
                 for (String word : split) {
