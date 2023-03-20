@@ -12,12 +12,12 @@ public class MapComparator implements Comparator<HashMap<String, Integer>> {
         if (o1.size() == 0) {
             o1Comp = 0;
         } else {
-            o1Comp = o1.get(0);
+            o1Comp = o1.getOrDefault(0, 0);
         }
         if (o2.size() == 0) {
             o2Comp = 0;
         } else {
-            o2Comp = o1.get(0);
+            o2Comp = o1.getOrDefault(0, 0);
         }
         if (o1Comp > o2Comp) {
             return 1;
