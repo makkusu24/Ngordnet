@@ -50,9 +50,7 @@ public class HyponymsHandler extends NgordnetQueryHandler {
         int endYear = q.endYear();
         int k = q.k();
         String result;
-        if (words.size() == 1 && k == 0) {
-            result = graph.findStrHyponyms(graph.wordConvert(words.get(0)));
-        } else if (words.size() != 1 && k == 0){
+        if (k == 0) {
             result = graph.findMultiStrHyponyms(words);
         } else {
             result = topKWords(graph.wordConvert(words.get(0)), startYear, endYear, k).toString();

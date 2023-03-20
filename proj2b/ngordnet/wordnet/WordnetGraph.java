@@ -1,7 +1,5 @@
 package ngordnet.wordnet;
 
-import ngordnet.ngrams.TimeSeries;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -9,9 +7,9 @@ import java.util.*;
 
 public class WordnetGraph {
 
-    private DirectedGraph hyponymsGraph;
-    private HashMap<Integer, String> idKeys;
-    private HashMap<String, List<Integer>> wordKeys;
+    private final DirectedGraph hyponymsGraph;
+    private final HashMap<Integer, String> idKeys;
+    private final HashMap<String, List<Integer>> wordKeys;
 
     public WordnetGraph(String synsetFile, String hyponymFile) {
         String contentHyponyms;
@@ -89,20 +87,25 @@ public class WordnetGraph {
         return hyponyms;
     }
 
-    public String findStrHyponyms(List<Integer> synsetID) {
-        TreeSet<Integer> intSet = findIntHyponyms(synsetID);
-        TreeSet<String> returnSet = new TreeSet<>();
-        for (int id : intSet) {
-            if (idConvert(id).contains(" ")) {
-                String[] split = idConvert(id).split(" ");
-                for (String word : split) {
-                    returnSet.add(word);
-                }
-            } else {
-                returnSet.add(idConvert(id));
+    public String findMultiStrHyponyms(List<String> words) {
+        TreeSet<String> result = new TreeSet<>();
+        Set<Integer> baseCompare = new TreeSet<>(findIntHyponyms(wordConvert(words.get(0))));
+        if (words.size() > 1) {
+            for (int i = 1; i < words.size(); i++) {
+                baseCompare.retainAll(findIntHyponyms(wordConvert(words.get(i))));
             }
         }
-        return returnSet.toString();
+        for (int node : baseCompare) {
+            if (idConvert(node).contains(" ")) {
+                String[] split = idConvert(node).split(" ");
+                for (String word : split) {
+                    result.add(word);
+                }
+            } else {
+                result.add(idConvert(node));
+            }
+        }
+        return result.toString();
     }
 
     public TreeSet<String> findSetHyponyms(List<Integer> synsetID) {
@@ -119,25 +122,6 @@ public class WordnetGraph {
             }
         }
         return returnSet;
-    }
-
-    public String findMultiStrHyponyms(List<String> words) {
-        TreeSet<String> result = new TreeSet<>();
-        Set<Integer> baseCompare = new TreeSet<>(findIntHyponyms(wordConvert(words.get(0))));
-        for (int i = 1; i < words.size(); i++) {
-            baseCompare.retainAll(findIntHyponyms(wordConvert(words.get(i))));
-        }
-        for (int node : baseCompare) {
-            if (idConvert(node).contains(" ")) {
-                String[] split = idConvert(node).split(" ");
-                for (String word : split) {
-                    result.add(word);
-                }
-            } else {
-                result.add(idConvert(node));
-            }
-        }
-        return result.toString();
     }
 
 }
