@@ -44,5 +44,23 @@ public class TestMultiWordK0Hyponyms {
         assertThat(actual).isEqualTo(expected);
     }
 
+    @Test
+    public void specMultiWordTest() {
+        NgordnetQueryHandler studentHandler = AutograderBuddy.getHyponymHandler(
+                WORDS_FILE, TOTAL_COUNTS_FILE, LARGE_SYNSET_FILE, LARGE_HYPONYM_FILE);
+        List<String> words = List.of("video", "recording");
+
+        NgordnetQuery nq = new NgordnetQuery(words, 0, 0, 0);
+        String actual = studentHandler.handle(nq);
+        String expected = "[video, video_recording, videocassette, videotape]";
+        assertThat(actual).isEqualTo(expected);
+
+        List<String> words2 = List.of("pastry", "tart");
+        NgordnetQuery nq2 = new NgordnetQuery(words2, 0, 0, 0);
+        String actual2 = studentHandler.handle(nq2);
+        String expected2 = "[apple_tart, lobster_tart, quiche, quiche_Lorraine, tart, tartlet]";
+        assertThat(actual2).isEqualTo(expected2);
+    }
+
     // TODO: Create similar unit test files for the k != 0 cases.
 }
