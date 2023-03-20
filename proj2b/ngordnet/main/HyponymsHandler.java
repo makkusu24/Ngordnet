@@ -18,8 +18,10 @@ public class HyponymsHandler extends NgordnetQueryHandler {
         this.map = ngram;
     }
 
-    public List<String> topKWords(List<Integer> hyponyms, int start, int end, int k) { //handles 1 word for now b/c of return of findSetHyponyms
-        //HashMap<String, Integer> mapCounts = sumCountHistory(graph.findSetHyponyms(hyponyms), start, end); // breakpoint
+    public List<String> topKWords(List<Integer> hyponyms, int start, int end, int k) {
+        //handles 1 word for now b/c of return of findSetHyponyms
+        //HashMap<String, Integer> mapCounts =
+        // sumCountHistory(graph.findSetHyponyms(hyponyms), start, end); // breakpoint
         Comparator<HashMap<String, Integer>> cmptr = new MapComparator();
         //MaxPQ<HashMap<String, Integer>> topK = new MaxPQ<>(mapCounts.size(), cmptr);
         MaxPQ<HashMap<String, Integer>> topK = new MaxPQ<>(cmptr);

@@ -88,24 +88,13 @@ public class WordnetGraph {
     }
 
     public String findMultiStrHyponyms(List<String> words) {
-        TreeSet<String> result = new TreeSet<>();
-        Set<Integer> baseCompare = new TreeSet<>(findIntHyponyms(wordConvert(words.get(0))));
+        Set<String> baseCompare = new TreeSet<>(findSetHyponyms(wordConvert(words.get(0))));
         if (words.size() > 1) {
             for (int i = 1; i < words.size(); i++) {
-                baseCompare.retainAll(findIntHyponyms(wordConvert(words.get(i))));
+                baseCompare.retainAll(findSetHyponyms(wordConvert(words.get(i))));
             }
         }
-        for (int node : baseCompare) {
-            if (idConvert(node).contains(" ")) {
-                String[] split = idConvert(node).split(" ");
-                for (String word : split) {
-                    result.add(word);
-                }
-            } else {
-                result.add(idConvert(node));
-            }
-        }
-        return result.toString();
+        return baseCompare.toString();
     }
 
     public TreeSet<String> findSetHyponyms(List<Integer> synsetID) {
