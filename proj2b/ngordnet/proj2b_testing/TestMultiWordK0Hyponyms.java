@@ -100,9 +100,45 @@ public class TestMultiWordK0Hyponyms {
         List<String> words = List.of("stuff", "dung");
 
         NgordnetQuery nq = new NgordnetQuery(words, 1470, 2019, 4);
-        String actual2 = studentHandler.handle(nq);
-        String expected2 = "[chip]";
-        assertThat(actual2).isEqualTo(expected2);
+        String actual = studentHandler.handle(nq);
+        String expected = "[chip]";
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void k0ComprehensiveTest3() {
+        NgordnetQueryHandler studentHandler = AutograderBuddy.getHyponymHandler(
+                STAFF_WORDS_FILE, TOTAL_COUNTS_FILE, LARGE_SYNSET_FILE, LARGE_HYPONYM_FILE);
+        List<String> words = List.of("unit", "roofing_tile");
+
+        NgordnetQuery nq = new NgordnetQuery(words, 1470, 2019, 9);
+        String actual = studentHandler.handle(nq);
+        String expected = "[tile]";
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void k0ComprehensiveTest4() {
+        NgordnetQueryHandler studentHandler = AutograderBuddy.getHyponymHandler(
+                STAFF_WORDS_FILE, TOTAL_COUNTS_FILE, LARGE_SYNSET_FILE, LARGE_HYPONYM_FILE);
+        List<String> words = List.of("measure", "rest_period");
+
+        NgordnetQuery nq = new NgordnetQuery(words, 1920, 1980, 8);
+        String actual = studentHandler.handle(nq);
+        String expected = "[breath, relief, rest]";
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void k0NotInWordsFile() {
+        NgordnetQueryHandler studentHandler = AutograderBuddy.getHyponymHandler(
+                STAFF_WORDS_FILE, TOTAL_COUNTS_FILE, LARGE_SYNSET_FILE, LARGE_HYPONYM_FILE);
+        List<String> words = List.of("cardinal");
+
+        NgordnetQuery nq = new NgordnetQuery(words, 1920, 1980, 8);
+        String actual = studentHandler.handle(nq);
+        String expected = "cardinal";
+        assertThat(actual).isEqualTo(expected);
     }
 
 }
