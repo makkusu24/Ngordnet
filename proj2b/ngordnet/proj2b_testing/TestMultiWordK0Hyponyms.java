@@ -137,7 +137,7 @@ public class TestMultiWordK0Hyponyms {
 
         NgordnetQuery nq = new NgordnetQuery(words, 1920, 1980, 8);
         String actual = studentHandler.handle(nq);
-        String expected = "cardinal";
+        String expected = "[cardinal]";
         assertThat(actual).isEqualTo(expected);
     }
 
