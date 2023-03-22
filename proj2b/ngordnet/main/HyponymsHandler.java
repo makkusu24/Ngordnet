@@ -19,7 +19,7 @@ public class HyponymsHandler extends NgordnetQueryHandler {
 
     public String topKWords(List<String> hyponyms, int start, int end, int k) {
         Set<String> baseCompare = new TreeSet<>(graph.findSetHyponyms(graph.wordConvert(hyponyms.get(0))));
-        TreeMap<Integer, List<String>> sortMap = new TreeMap<>(Collections.reverseOrder());
+        TreeMap<Double, List<String>> sortMap = new TreeMap<>(Collections.reverseOrder());
         if (hyponyms.size() > 1) {
             for (int i = 1; i < hyponyms.size(); i++) {
                 baseCompare.retainAll(graph.findSetHyponyms(graph.wordConvert(hyponyms.get(i))));
@@ -27,7 +27,7 @@ public class HyponymsHandler extends NgordnetQueryHandler {
         }
         for (String word : baseCompare) {
             TimeSeries refTS = map.countHistory(word, start, end);
-            int sum = 0;
+            double sum = 0;
             for (double value : refTS.values()) {
                 sum += value;
             }
@@ -35,12 +35,12 @@ public class HyponymsHandler extends NgordnetQueryHandler {
             addSum.add(word);
             sortMap.put(sum, addSum);
         }
-        sortMap.remove(0);
+        sortMap.remove(0.0);
         List<String> kWords = new ArrayList<>();
         int countIndex = 0;
-        for (Map.Entry<Integer, List<String>> entry : sortMap.entrySet()) {
+        for (Map.Entry<Double, List<String>> entry : sortMap.entrySet()) {
             List<String> addSum = entry.getValue();
-            //Collections.sort(addSum);
+            Collections.sort(addSum);
             for (String word : addSum) {
                 kWords.add(word);
                 countIndex += 1;
