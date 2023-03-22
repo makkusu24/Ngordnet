@@ -1,6 +1,5 @@
 package ngordnet.main;
 
-import edu.princeton.cs.algs4.MaxPQ;
 import ngordnet.browser.NgordnetQuery;
 import ngordnet.browser.NgordnetQueryHandler;
 import ngordnet.ngrams.NGramMap;
@@ -19,14 +18,14 @@ public class HyponymsHandler extends NgordnetQueryHandler {
     }
 
     public String topKWords(List<String> hyponyms, int start, int end, int k) {
-        Set<String> baseCompare = new TreeSet<>(graph.findSetHyponyms(graph.wordConvert(hyponyms.get(0)))); // get IDs of all hyponyms
+        Set<String> baseCompare = new TreeSet<>(graph.findSetHyponyms(graph.wordConvert(hyponyms.get(0))));
         TreeMap<Integer, List<String>> sortMap = new TreeMap<>(Collections.reverseOrder());
         if (hyponyms.size() > 1) {
             for (int i = 1; i < hyponyms.size(); i++) {
                 baseCompare.retainAll(graph.findSetHyponyms(graph.wordConvert(hyponyms.get(i))));
             }
         }
-        for (String word : baseCompare) { // get summed frequencies of the hyponyms
+        for (String word : baseCompare) {
             TimeSeries refTS = map.countHistory(word, start, end);
             int sum = 0;
             for (double value : refTS.values()) {
@@ -41,15 +40,14 @@ public class HyponymsHandler extends NgordnetQueryHandler {
         for (Map.Entry<Integer, List<String>> entry : sortMap.entrySet()) {
             List<String> addSum = entry.getValue();
             Collections.sort(addSum);
-            int count = entry.getKey();
             for (String word : addSum) {
                 kWords.add(word);
                 countIndex += 1;
-                if (countIndex >= k) {
+                if (countIndex > k) {
                     break;
                 }
             }
-            if (countIndex >= k) {
+            if (countIndex > k) {
                 break;
             }
         }
