@@ -43,11 +43,11 @@ public class HyponymsHandler extends NgordnetQueryHandler {
             for (String word : addSum) {
                 kWords.add(word);
                 countIndex += 1;
-                if (countIndex > k) {
+                if (countIndex >= k) {
                     break;
                 }
             }
-            if (countIndex > k) {
+            if (countIndex >= k) {
                 break;
             }
         }

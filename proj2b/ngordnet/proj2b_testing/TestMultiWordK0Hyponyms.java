@@ -81,4 +81,28 @@ public class TestMultiWordK0Hyponyms {
         assertThat(actual2).isEqualTo(expected2);
     }
 
+    @Test
+    public void k0ComprehensiveTest1() {
+        NgordnetQueryHandler studentHandler = AutograderBuddy.getHyponymHandler(
+                STAFF_WORDS_FILE, TOTAL_COUNTS_FILE, LARGE_SYNSET_FILE, LARGE_HYPONYM_FILE);
+        List<String> words = List.of("dominion");
+
+        NgordnetQuery nq = new NgordnetQuery(words, 1470, 2019, 8);
+        String actual = studentHandler.handle(nq);
+        String expected = "[addition, city, community, country, development, land, rule, state]";
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void k0ComprehensiveTest2() {
+        NgordnetQueryHandler studentHandler = AutograderBuddy.getHyponymHandler(
+                STAFF_WORDS_FILE, TOTAL_COUNTS_FILE, LARGE_SYNSET_FILE, LARGE_HYPONYM_FILE);
+        List<String> words = List.of("stuff", "dung");
+
+        NgordnetQuery nq = new NgordnetQuery(words, 1470, 2019, 4);
+        String actual2 = studentHandler.handle(nq);
+        String expected2 = "[chip]";
+        assertThat(actual2).isEqualTo(expected2);
+    }
+
 }
