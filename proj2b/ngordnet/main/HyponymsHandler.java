@@ -40,7 +40,7 @@ public class HyponymsHandler extends NgordnetQueryHandler {
         int countIndex = 0;
         for (Map.Entry<Integer, List<String>> entry : sortMap.entrySet()) {
             List<String> addSum = entry.getValue();
-            Collections.sort(addSum);
+            //Collections.sort(addSum);
             for (String word : addSum) {
                 kWords.add(word);
                 countIndex += 1;
