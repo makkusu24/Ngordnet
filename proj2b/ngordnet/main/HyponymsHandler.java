@@ -17,7 +17,7 @@ public class HyponymsHandler extends NgordnetQueryHandler {
         this.map = ngram;
     }
 
-    public String topKWords(List<String> hyponyms, int start, int end, int k) {
+    public String topKWords(List<String> hyponyms, int start, int end, int k) { // not accounting for whether it's in the words file or not
         Set<String> baseCompare = new TreeSet<>(graph.findSetHyponyms(graph.wordConvert(hyponyms.get(0))));
         TreeMap<Integer, List<String>> sortMap = new TreeMap<>(Collections.reverseOrder());
         if (hyponyms.size() > 1) {
@@ -35,6 +35,7 @@ public class HyponymsHandler extends NgordnetQueryHandler {
             addSum.add(word);
             sortMap.put(sum, addSum);
         }
+        sortMap.remove(0); // new addition!
         List<String> kWords = new ArrayList<>();
         int countIndex = 0;
         for (Map.Entry<Integer, List<String>> entry : sortMap.entrySet()) {
