@@ -103,9 +103,7 @@ public class WordnetGraph {
         for (int id : intSet) {
             if (idConvert(id).contains(" ")) {
                 String[] split = idConvert(id).split(" ");
-                for (String word : split) {
-                    returnSet.add(word);
-                }
+                returnSet.addAll(List.of(split));
             } else {
                 returnSet.add(idConvert(id));
             }
