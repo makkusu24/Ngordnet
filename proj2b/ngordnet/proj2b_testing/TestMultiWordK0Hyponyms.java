@@ -141,4 +141,16 @@ public class TestMultiWordK0Hyponyms {
         assertThat(actual).isEqualTo(expected);
     }
 
+    @Test
+    public void k0EXtra() {
+        NgordnetQueryHandler studentHandler = AutograderBuddy.getHyponymHandler(
+                STAFF_WORDS_FILE, TOTAL_COUNTS_FILE, LARGE_SYNSET_FILE, LARGE_HYPONYM_FILE);
+        List<String> words = List.of("entity");
+
+        NgordnetQuery nq = new NgordnetQuery(words, 1470, 2019, 8);
+        String actual = studentHandler.handle(nq);
+        String expected = "[are, at, can, have, he, in, one, will]";
+        assertThat(actual).isEqualTo(expected);
+    }
+
 }
