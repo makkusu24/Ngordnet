@@ -18,28 +18,43 @@ public class HyponymsHandler extends NgordnetQueryHandler {
         this.map = ngram;
     }
 
-    public List<String> topKWords(List<Integer> hyponyms, int start, int end, int k) {
-        //handles 1 word for now b/c of return of findSetHyponyms
-        Comparator<HashMap<String, Integer>> cmptr = new MapComparator();
-        MaxPQ<HashMap<String, Integer>> topK = new MaxPQ<>(cmptr);
-        for (String word : graph.findSetHyponyms(hyponyms)) { // words must occur in 14377_words.csv
-            HashMap<String, Integer> newMap = new HashMap<>();
+    public String topKWords(List<String> hyponyms, int start, int end, int k) {
+        Set<String> baseCompare = new TreeSet<>(graph.findSetHyponyms(graph.wordConvert(hyponyms.get(0)))); // get IDs of all hyponyms
+        TreeMap<Integer, List<String>> sortMap = new TreeMap<>(Collections.reverseOrder());
+        if (hyponyms.size() > 1) {
+            for (int i = 1; i < hyponyms.size(); i++) {
+                baseCompare.retainAll(graph.findSetHyponyms(graph.wordConvert(hyponyms.get(i))));
+            }
+        }
+        for (String word : baseCompare) { // get summed frequencies of the hyponyms
             TimeSeries refTS = map.countHistory(word, start, end);
             int sum = 0;
             for (double value : refTS.values()) {
                 sum += value;
             }
-            newMap.put(word, sum); // .get() doesn't work in comparator class?
-            topK.insert(newMap);
+            List<String> addSum = sortMap.getOrDefault(sum, new ArrayList<>());
+            addSum.add(word);
+            sortMap.put(sum, addSum);
         }
-        while (topK.size() > k) {
-            topK.delMax();
+        List<String> kWords = new ArrayList<>();
+        int countIndex = 0;
+        for (Map.Entry<Integer, List<String>> entry : sortMap.entrySet()) {
+            List<String> addSum = entry.getValue();
+            Collections.sort(addSum);
+            int count = entry.getKey();
+            for (String word : addSum) {
+                kWords.add(word);
+                countIndex += 1;
+                if (countIndex >= k) {
+                    break;
+                }
+            }
+            if (countIndex >= k) {
+                break;
+            }
         }
-        ArrayList<String> returnList = new ArrayList<>();
-        while (topK.size() > 0) {
-            returnList.add(topK.delMax().keySet().toString());
-        }
-        return returnList;
+        Collections.sort(kWords);
+        return kWords.toString();
     }
 
     @Override
@@ -52,7 +67,7 @@ public class HyponymsHandler extends NgordnetQueryHandler {
         if (k == 0) {
             result = graph.findMultiStrHyponyms(words);
         } else {
-            result = topKWords(graph.wordConvert(words.get(0)), startYear, endYear, k).toString();
+            result = topKWords(words, startYear, endYear, k);
         }
         return result;
     }
